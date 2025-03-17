@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sports Poll</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .poll-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .party {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 300px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            border-radius: 5px;
+        }
+
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        button:hover:not(:disabled) {
+            background-color: #0056b3;
+        }
+
+        .bar {
+            height: 20px;
+            background-color: #007BFF;
+            width: 0;
+            transition: width 0.5s;
+        }
+
+        .count {
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Which Sport do you like watching or playing?</h1>
+    <div class="poll-container">
+        <div class="Sports" id="FootBall">
+            <button onclick="vote('FOOTBALL')" id="FootBall-btn">FOOTBALL</button>
+            <div class="bar"></div>
+            <span class="count">0</span>
+        </div>
+        <div class="Sports" id="BasketBall">
+            <button onclick="vote('BASKETBALL')" id="BasketBall-btn">BASKETBALL</button>
+            <div class="bar"></div>
+            <span class="count">0</span>
+        </div>
+        <div class="Sports" id="Tennis">
+            <button onclick="vote('TENNIS')" id="Tennis-btn">TENNIS</button>
+            <div class="bar"></div>
+            <span class="count">0</span>
+        </div>
+        <div class="Sports" id="VolleyBall">
+            <button onclick="vote('VOLLEYBALL')" id="VolleyBall-btn">VOLLEYBALL</button>
+            <div class="bar"></div>
+            <span class="count">0</span>
+		</div>
+        <div class="Sports" id="Boxing">
+            <button onclick="vote('BOXING')" id="Boxing-btn">BOXING</button>
+            <div class="bar"></div>
+            <span class="count">0</span>
+			
+        </div>
+    </div>
+
+    <script>
+        // Initialize vote counts
+        let Sports = {
+            FOOTBALL: 0,
+            BASKETBALL: 0,
+            TENNIS: 0,
+            VOLLEYBALL: 0,
+			BOXING: 0
+        };
+
+        // Check if the user has already voted
+        const hasVoted = localStorage.getItem('hasVoted');
+
+        // Disable buttons if the user has already voted
+        if (hasVoted) {
+            document.getElementById('FootBall-btn').disabled = true;
+            document.getElementById('BasketBall-btn').disabled = true;
+            document.getElementById('Tennis-btn').disabled = true;
+            document.getElementById('VolleyBall-btn').disabled = true;
+			document.getElementById('Boxing-btn').disabled = true;
+        }
+
+        // Function to handle voting
+        function vote(Sports) {
+            if (localStorage.getItem('hasVoted')) {
+                alert('You have already voted!');
+                return;
+            }
+
+            // Increment the vote count for the selected party
+            votes[Sports]++;
+
+            // Mark the user as having voted
+            localStorage.setItem('hasVoted', true);
+
+            // Disable all buttons after voting
+            document.getElementById('FootBall-btn').disabled = true;
+            document.getElementById('BasketBall-btn').disabled = true;
+            document.getElementById('Tennis-btn').disabled = true;
+            document.getElementById('VolleyBall-btn').disabled = true;
+			document.getElementById('Boxing-btn').disabled = true;
+
+            // Update the poll display
+            updatePoll();
+        }
+
+        // Function to update the poll display
+        function updatePoll() {
+            // Get the total votes to calculate percentages
+            const totalVotes = votes.FOOTBALL + votes.BASKETBALL + votes.TENNIS + votes.VOLLEYBALL + votes.BOXING;
+
+            // Loop through each party and update the bar and count
+            for (const Sports in votes) {
+                const SportsElement = document.getElementById(Sports.toLowerCase());
+                const bar = SportsElement.querySelector('.bar');
+                const count = SportsElement.querySelector('.count');
+
+                // Calculate the percentage of votes
+                const percentage = totalVotes === 0 ? 0 : (votes[Sports] / totalVotes) * 100;
+
+                // Update the bar width and count text
+                bar.style.width = `${percentage}%`;
+                count.textContent = votes[Sports];
+            }
+        }
+
+        // Initialize the poll display
+        updatePoll();
+    </script>
+</body>
+</html>
