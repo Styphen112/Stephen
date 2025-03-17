@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2027 Nigeria Presidential Election Poll</title>
+    <title>Sports Poll</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -65,37 +65,44 @@
     </style>
 </head>
 <body>
-    <h1>Who Will Win the 2027 Presidential Election in Nigeria?</h1>
+    <h1>Which Sport do you like watching or playing?</h1>
     <div class="poll-container">
-        <div class="party" id="apc">
-            <button onclick="vote('APC')" id="apc-btn">APC</button>
+        <div class="Sports" id="FootBall">
+            <button onclick="vote('FOOTBALL')" id="FootBall-btn">FOOTBALL</button>
             <div class="bar"></div>
             <span class="count">0</span>
         </div>
-        <div class="party" id="pdp">
-            <button onclick="vote('PDP')" id="pdp-btn">PDP</button>
+        <div class="Sports" id="BasketBall">
+            <button onclick="vote('BASKETBALL')" id="BasketBall-btn">BASKETBALL</button>
             <div class="bar"></div>
             <span class="count">0</span>
         </div>
-        <div class="party" id="lp">
-            <button onclick="vote('LP')" id="lp-btn">LP</button>
+        <div class="Sports" id="Tennis">
+            <button onclick="vote('TENNIS')" id="Tennis-btn">TENNIS</button>
             <div class="bar"></div>
             <span class="count">0</span>
         </div>
-        <div class="party" id="sdp">
-            <button onclick="vote('SDP')" id="sdp-btn">SDP</button>
+        <div class="Sports" id="VolleyBall">
+            <button onclick="vote('VOLLEYBALL')" id="VolleyBall-btn">VOLLEYBALL</button>
             <div class="bar"></div>
             <span class="count">0</span>
+		</div>
+        <div class="Sports" id="Boxing">
+            <button onclick="vote('BOXING')" id="Boxing-btn">BOXING</button>
+            <div class="bar"></div>
+            <span class="count">0</span>
+			
         </div>
     </div>
 
     <script>
         // Initialize vote counts
-        let votes = {
-            APC: 0,
-            PDP: 0,
-            LP: 0,
-            SDP: 0
+        let Sports = {
+            FOOTBALL: 0,
+            BASKETBALL: 0,
+            TENNIS: 0,
+            VOLLEYBALL: 0,
+			BOXING: 0
         };
 
         // Check if the user has already voted
@@ -103,30 +110,32 @@
 
         // Disable buttons if the user has already voted
         if (hasVoted) {
-            document.getElementById('apc-btn').disabled = true;
-            document.getElementById('pdp-btn').disabled = true;
-            document.getElementById('lp-btn').disabled = true;
-            document.getElementById('sdp-btn').disabled = true;
+            document.getElementById('FootBall-btn').disabled = true;
+            document.getElementById('BasketBall-btn').disabled = true;
+            document.getElementById('Tennis-btn').disabled = true;
+            document.getElementById('VolleyBall-btn').disabled = true;
+			document.getElementById('Boxing-btn').disabled = true;
         }
 
         // Function to handle voting
-        function vote(party) {
+        function vote(Sports) {
             if (localStorage.getItem('hasVoted')) {
                 alert('You have already voted!');
                 return;
             }
 
             // Increment the vote count for the selected party
-            votes[party]++;
+            votes[Sports]++;
 
             // Mark the user as having voted
             localStorage.setItem('hasVoted', true);
 
             // Disable all buttons after voting
-            document.getElementById('apc-btn').disabled = true;
-            document.getElementById('pdp-btn').disabled = true;
-            document.getElementById('lp-btn').disabled = true;
-            document.getElementById('sdp-btn').disabled = true;
+            document.getElementById('FootBall-btn').disabled = true;
+            document.getElementById('BasketBall-btn').disabled = true;
+            document.getElementById('Tennis-btn').disabled = true;
+            document.getElementById('VolleyBall-btn').disabled = true;
+			document.getElementById('Boxing-btn').disabled = true;
 
             // Update the poll display
             updatePoll();
@@ -135,20 +144,20 @@
         // Function to update the poll display
         function updatePoll() {
             // Get the total votes to calculate percentages
-            const totalVotes = votes.APC + votes.PDP + votes.LP + votes.SDP;
+            const totalVotes = votes.FOOTBALL + votes.BASKETBALL + votes.TENNIS + votes.VOLLEYBALL + votes.BOXING;
 
             // Loop through each party and update the bar and count
-            for (const party in votes) {
-                const partyElement = document.getElementById(party.toLowerCase());
-                const bar = partyElement.querySelector('.bar');
-                const count = partyElement.querySelector('.count');
+            for (const Sports in votes) {
+                const SportsElement = document.getElementById(Sports.toLowerCase());
+                const bar = SportsElement.querySelector('.bar');
+                const count = SportsElement.querySelector('.count');
 
                 // Calculate the percentage of votes
-                const percentage = totalVotes === 0 ? 0 : (votes[party] / totalVotes) * 100;
+                const percentage = totalVotes === 0 ? 0 : (votes[Sports] / totalVotes) * 100;
 
                 // Update the bar width and count text
                 bar.style.width = `${percentage}%`;
-                count.textContent = votes[party];
+                count.textContent = votes[Sports];
             }
         }
 
